@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using Cyberbit.TaskManager.Server.Interfaces;
 using Cyberbit.TaskManager.Server.Models;
 using Cyberbit.TaskManager.Server.Models.Dto;
@@ -25,13 +26,17 @@ namespace Cyberbit.TaskManager.Server.Services
                 .ForMember(user => user.IsDeleted, opt => opt.Ignore())
                 .ForMember(user => user.Password, opt => opt.Ignore());
 
-            cfg.CreateMap<Models.Task, TaskDto>()
+            cfg.CreateMap<Models.Task, TaskDto>()                
+                .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id).ToList()))
+                .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.Categories.Select(c => c.Name).ToList()))
                 .ReverseMap()
                 .ForMember(t => t.CreatedByUserId, opt => opt.MapFrom(src => src.CreatedByUserId))
                 .ForMember(t => t.CreatedByUser, opt => opt.Ignore())
                 .ForMember(t => t.UserId, opt => opt.MapFrom(src => src.UserId))
-                .ForMember(t => t.User, opt => opt.Ignore())
+                .ForMember(t => t.User, opt => opt.MapFrom(src => src.User))
+                .ForMember(t => t.Categories, opt => opt.Ignore())                      
                 ;
+
 
             cfg.CreateMap<Category, CategoryDto>()
                 .ForSourceMember(user => user.IsDeleted, opt => opt.DoNotValidate())

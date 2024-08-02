@@ -14,12 +14,14 @@ namespace Cyberbit.TaskManager.Server.Controllers
     {
         private readonly ILogger<TasksController> _logger;
         private readonly ITasksBl _TasksBl;
+        private readonly ICategoriesBl _CategoriesBl;
         private readonly IAutoMapperService _autoMapper;
 
-        public TasksController(ILogger<TasksController> logger, ITasksBl tasksBl, IAutoMapperService autoMapper)
+        public TasksController(ILogger<TasksController> logger, ITasksBl tasksBl, ICategoriesBl categoriesBl, IAutoMapperService autoMapper)
         {
             _logger = logger;
             _TasksBl = tasksBl;
+            _CategoriesBl = categoriesBl;
             _autoMapper = autoMapper;
         }
 
@@ -73,6 +75,11 @@ namespace Cyberbit.TaskManager.Server.Controllers
             }
 
             var task = _autoMapper.Mapper.Map<Models.Task>(taskDto);
+            if (taskDto.CategoryIds != null && taskDto.CategoryIds.Count > 0)
+            {
+                task.Categories = (List<Models.Category>)await _CategoriesBl.GetCategories(taskDto.CategoryIds);
+            }
+
             var addedTask = await _TasksBl.AddTask(task, currentUser);
             if (addedTask == null)
             {
@@ -103,11 +110,15 @@ namespace Cyberbit.TaskManager.Server.Controllers
                 return BadRequest(errMsg);
             }
 
-            var Task = _autoMapper.Mapper.Map<Models.Task>(taskDto);
+            var task = _autoMapper.Mapper.Map<Models.Task>(taskDto);
+            if (taskDto.CategoryIds != null && taskDto.CategoryIds.Count > 0)
+            {
+                task.Categories = (List<Models.Category>)await _CategoriesBl.GetCategories(taskDto.CategoryIds);
+            }
             Models.Task updatedTask = null;
             try
             {
-                updatedTask = await _TasksBl.UpdateTask(Task);
+                updatedTask = await _TasksBl.UpdateTask(task);
             }
             catch (Exception ex)
             {
@@ -155,6 +166,22 @@ namespace Cyberbit.TaskManager.Server.Controllers
 
             var deletedTaskDto = _autoMapper.Mapper.Map<TaskDto>(Task);
             return deletedTaskDto;
+        }
+
+        [HttpGet("doneAll/{id}")]
+        [Authorize]
+        public async Task<ActionResult<bool>> MarkAllTasksAsDoneByUserId([FromRoute] int id)
+        {
+            if (id <= 0)
+            {
+                var errMsg = $"Specified invalid user id '{id}'";
+                _logger.LogError(errMsg);
+                return BadRequest(errMsg);
+            }
+
+            var retValue = await _TasksBl.MarkAllTasksAsDoneByUserId(id);
+            
+            return retValue;
         }
     }
 }

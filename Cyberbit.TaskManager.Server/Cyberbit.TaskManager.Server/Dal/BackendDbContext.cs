@@ -3,6 +3,7 @@ using Cyberbit.TaskManager.Server.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
+using System.Collections.Generic;
 
 namespace Cyberbit.TaskManager.Server.Dal
 {
@@ -34,10 +35,10 @@ namespace Cyberbit.TaskManager.Server.Dal
                 .HasOne(t => t.CreatedByUser)
                 .WithMany(u => u.CreatedByTasks)
                 .HasForeignKey(f => f.CreatedByUserId);
-
+            
             modelBuilder.Entity<Task>()
                 .Property(t => t.Status)
-                .HasConversion(new EnumToStringConverter<TasksStatus>());
+                .HasConversion(new EnumToStringConverter<TasksStatus>());            
         }
         #endregion
 
@@ -47,20 +48,30 @@ namespace Cyberbit.TaskManager.Server.Dal
             {
                 Id = 1,
                 FirstName = "Admin",
-                LastName = "1",
+                LastName = "the best",
                 Email = "admin_1@cyberbit.com",
                 Role = UserRole.Manager,
                 Password = "1234",
                 CreateTime = DateTime.Now
             });
 
-            for (int i = 1; i < 6; i++)
+            Users.Add(new User
+                {
+                    Id = 2,
+                    FirstName = "ido",
+                    LastName = "greenberg",
+                    Email = "ido.greenberg@cyberbit.com",
+                    Role = UserRole.Employee,
+                    Password = "1234",
+                    CreateTime = DateTime.Now
+                });
+            for (int i = 2; i < 6; i++)
             {
                 Users.Add(new User
                 {
                     Id = i +1,
                     FirstName = "Employee",
-                    LastName = i.ToString(),
+                    LastName = "i.ToString()",
                     Email = $"employee_{i}@cyberbit.com",
                     Role = UserRole.Employee,
                     Password = "1234",
@@ -68,25 +79,29 @@ namespace Cyberbit.TaskManager.Server.Dal
                 });
             }
 
-            Categories.Add(new Category
+            var category1 = new Category
             {
-                Name = "Category A"
-            });
+                Name = "South Africa"
+            };
+            Categories.Add(category1);
 
-            Categories.Add(new Category
+            var category2 = new Category
             {
-                Name = "Category B"
-            });
+                Name = "Western Virginia"
+            };
+            Categories.Add(category2);
 
-            Categories.Add(new Category
+            var category3 = new Category
             {
-                Name = "Category C"
-            });
+                Name = "Tel Aviv"
+            };
+            Categories.Add(category3);
 
-            Categories.Add(new Category
+            var category4 = new Category
             {
-                Name = "Category D"
-            });
+                Name = "North Carolina"
+            };
+            Categories.Add(category4);
             SaveChanges();
 
             Tasks.Add(new Task
@@ -97,9 +112,33 @@ namespace Cyberbit.TaskManager.Server.Dal
                 DueDate = DateTime.Now.AddDays(7),
                 Title = "Bugs",
                 UserId = 2,
-                Status = TasksStatus.Open
+                Status = TasksStatus.Open,
+                Categories = new List<Category> { category2 }
             });
 
+            Tasks.Add(new Task
+            {
+                CreatedByUserId = 1,
+                CreationTime = DateTime.Now.AddDays(-1).AddHours(1).AddMinutes(-13),
+                Description = "Test1",
+                DueDate = DateTime.Now.AddDays(2),
+                Title = "High priority",
+                UserId = 1,
+                Status = TasksStatus.Open,
+                Categories = new List<Category> { category3 }
+            });
+
+            Tasks.Add(new Task
+            {
+                CreatedByUserId = 1,
+                CreationTime = DateTime.Now.AddDays(-2).AddHours(-4).AddMinutes(27),
+                Description = "In the heart of the bustling city, the ancient cathedral stood as a timeless sentinel, its towering spires reaching toward the heavens, casting long shadows over the cobblestone streets below, where generations of people had walked, lived, and loved. The intricate stained glass windows, with their vivid hues and elaborate designs, told stories of old, filtering the sunlight into a kaleidoscope of colors.",
+                DueDate = DateTime.Now.AddDays(30),
+                Title = "The mesmerizing grandeur of the Milky Way galaxy, with its vast expanse of stars, planets, and other celestial bodies.",
+                UserId = 1,
+                Status = TasksStatus.Open,
+                Categories = new List<Category> { category1, category4 }
+            });
             SaveChanges();
         }
     }

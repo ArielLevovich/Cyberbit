@@ -25,6 +25,13 @@ namespace Cyberbit.TaskManager.Server.Bl
             return retValue;
         }
 
+        public async Task<IList<Category>> GetCategories(List<int> categoryIds)
+        {
+            _logger.LogInformation($"GetCategories - Enter");
+            var retValue = await _categoriesDal.GetCategories(categoryIds);
+            _logger.LogInformation($"GetCategories - Exit");
+            return retValue;
+        }
         public async Task<Category> AddCategory(Category category)
         {
             _logger.LogInformation($"AddCategory - Enter");

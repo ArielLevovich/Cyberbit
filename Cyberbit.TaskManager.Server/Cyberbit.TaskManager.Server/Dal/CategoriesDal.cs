@@ -29,6 +29,16 @@ namespace Cyberbit.TaskManager.Server.Dal
             return retValue;
         }
 
+        public async Task<IList<Category>> GetCategories(List<int> categoryIds)
+        {
+            _logger.LogInformation($"GetCategories - Enter");
+            var retValue = await _dbContext.Categories.AsNoTracking()
+                .Where(c => !c.IsDeleted && categoryIds.Contains(c.Id))
+                .ToListAsync();
+            _logger.LogInformation($"GetCategories - Exit");
+            return retValue;
+        }
+
         public async Task<Category> AddCategory(Category category)
         {
             _logger.LogInformation($"AddCategory - Enter");

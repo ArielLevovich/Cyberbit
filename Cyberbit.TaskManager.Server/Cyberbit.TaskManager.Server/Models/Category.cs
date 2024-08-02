@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Cyberbit.TaskManager.Server.Models
 {
@@ -10,6 +11,6 @@ namespace Cyberbit.TaskManager.Server.Models
         [Required, MaxLength(100)]
         public string Name { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }        
     }
 }

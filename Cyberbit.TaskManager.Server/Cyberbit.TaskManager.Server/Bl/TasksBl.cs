@@ -64,5 +64,12 @@ namespace Cyberbit.TaskManager.Server.Bl
             _logger.LogInformation($"DeleteTaskById - Exit");
             return retValue;
         }
+
+        public async Task<bool> MarkAllTasksAsDoneByUserId(int userId) {
+            _logger.LogInformation($"TasksBl.MarkAllTasksAsDoneByUserId - Enter");
+            var retValue = await _tasksDal.MarkAllTasksAsDoneByUserId(userId);
+            _logger.LogInformation($"TasksBl.MarkAllTasksAsDoneByUserId - Exit");
+            return retValue;
+        }
     }
 }

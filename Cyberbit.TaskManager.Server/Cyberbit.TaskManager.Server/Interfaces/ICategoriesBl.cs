@@ -7,11 +7,12 @@ namespace Cyberbit.TaskManager.Server.Interfaces
     public interface ICategoriesBl
     {
         Task<IList<Category>> GetAllCategories();
-
+        
         Task<Category> AddCategory(Category category);
 
         Task<Category> UpdateCategory(Category category);
 
         Task<Category> DeleteCategory(int id);
+        Task<IList<Category>> GetCategories(List<int> categoryIds);
     }
 }

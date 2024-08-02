@@ -13,5 +13,6 @@ namespace Cyberbit.TaskManager.Server.Interfaces
         Task<Category> UpdateCategory(Category category);
 
         Task<Category> DeleteCategory(int id);
+        Task<IList<Category>> GetCategories(List<int> categoryIds);
     }
 }

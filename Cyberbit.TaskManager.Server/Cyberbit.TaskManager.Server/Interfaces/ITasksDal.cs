@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cyberbit.TaskManager.Server.Interfaces
@@ -14,5 +15,6 @@ namespace Cyberbit.TaskManager.Server.Interfaces
         Task<Models.Task> UpdateTask(Models.Task task);
 
         Task<Models.Task> DeleteTaskById(int id);
+        Task<bool> MarkAllTasksAsDoneByUserId(int userId);
     }
 }

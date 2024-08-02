@@ -1,8 +1,12 @@
 ﻿using Cyberbit.TaskManager.Server.Interfaces;
+using Cyberbit.TaskManager.Server.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+
 
 namespace Cyberbit.TaskManager.Server.Dal
 {
@@ -22,6 +26,7 @@ namespace Cyberbit.TaskManager.Server.Dal
             _logger.LogInformation($"GetAllTask - Enter");
             var retValue = await _dbContext.Tasks.AsNoTracking()
                 .Include(t => t.CreatedByUser)
+                .Include(t => t.Categories)
                 .Include(t => t.User).ToListAsync();
             _logger.LogInformation($"GetAllTask - Exit");
             return retValue;
@@ -32,6 +37,7 @@ namespace Cyberbit.TaskManager.Server.Dal
             _logger.LogInformation($"GetTaskById - Enter");
             var retValue = await _dbContext.Tasks.AsNoTracking()
                 .Include(t => t.CreatedByUser)
+                .Include(t => t.Categories)
                 .Include(t => t.User)
                 .FirstOrDefaultAsync(task => task.Id == id);
             _logger.LogInformation($"GetTaskById - Exit");
@@ -65,6 +71,35 @@ namespace Cyberbit.TaskManager.Server.Dal
             await _dbContext.SaveChangesAsync();
             _logger.LogInformation($"DeleteTaskById - Exit");
             return deletedEntity.Entity;
+        }       
+
+        public async Task<bool> MarkAllTasksAsDoneByUserId(int userId)
+        {
+            _logger.LogInformation($"TasksDal.MarkAllTasksAsDoneByUserId - Enter");            
+            try
+            {
+                var tasks = await _dbContext.Tasks.AsNoTracking()
+                    .Where(t => t.UserId == userId && t.Status != TasksStatus.Done)
+                    .ToListAsync();
+
+                if (tasks.Any())
+                {
+                    tasks.ForEach(t => {
+                        t.Status = TasksStatus.Done;
+                        _dbContext.Tasks.Update(t);
+                    });
+                    await _dbContext.SaveChangesAsync();                    
+                }
+                _logger.LogInformation($"TasksDal.MarkAllTasksAsDoneByUserId - Exit");
+                return true;
+            }
+            catch (Exception)
+            {
+                _logger.LogInformation($"TasksDal.MarkAllTasksAsDoneByUserId - Exit");
+                // Log exception (not implemented here)
+                return false;
+            }                  
+            
         }
     }
 }
