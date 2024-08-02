@@ -1,0 +1,24 @@
+<div class="login-container">
+  <h1 class="login-title"> Login </h1>
+  <form [formGroup]="loginFG" (submit)="login()" class="login-form">
+    <mat-form-field class="login-field">
+      <mat-label class="form-input-label">User Name</mat-label>
+      <input matInput type="email" [formControl]="userNameFC" placeholder="Ex. admin_1@cyberbit.com">
+      <mat-error *ngIf="userNameFC.hasError('email') && !userNameFC.hasError('required')">
+        User name should be a valid email address
+      </mat-error>
+      <mat-error *ngIf="userNameFC.hasError('required')">
+        User name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="login-field">
+      <mat-label class="form-input-label">Password</mat-label>
+      <input matInput type="password" [formControl]="passwordFC" placeholder="Ex. 1234">
+      <mat-error *ngIf="passwordFC.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <h2 *ngIf="error" class="error-msg">Login Failed!</h2>
+    <button mat-raised-button class="login-btn" color="primary" type="submit" [disabled]="!loginFG.valid">Login</button>
+  </form>
+</div>

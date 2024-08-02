@@ -1,0 +1,14 @@
+.home-tabs {
+  width: 1400px;
+  height: 100%;
+  margin: auto;
+  .tabs-group {
+    overflow: auto;
+  }
+}
+
+.logout-btn {
+  position: fixed;
+  top: 10px;
+  left: 20px;
+}

@@ -1,0 +1,35 @@
+$padding: 10px;
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px 40px calc(100vh - 190px) 30px;
+  row-gap: 20px;
+  padding: $padding;
+  overflow-y: hidden;
+  overflow-x: auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: blue;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    font-size: 40px;
+
+    &.sub {
+      grid-row: 2 / span 1;
+      font-size: 35px;
+    }
+    &.disclaimer {
+      padding-top: 10px;
+      grid-row: 4 / span 1;
+      font-size: 15px;
+    }
+  }
+
+  .pages-container {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 1;
+  }
+}
