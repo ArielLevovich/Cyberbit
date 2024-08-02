@@ -8,4 +8,8 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-<button mat-raised-button class="logout-btn" color="primary" (click)="logout()">Logout</button>
+<div class="button-container">
+  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+  <button mat-raised-button class="create-task-btn" color="primary" (click)="markTasksDone()">Mark your Tasks Done</button>
+</div>
+

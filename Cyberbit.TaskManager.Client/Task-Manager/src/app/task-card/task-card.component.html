@@ -1,0 +1,21 @@
+<div>
+  <p class="align-right"><span [ngClass]="{
+  'status-done': data.status === 'Done',
+  'status-open': data.status === 'Open'
+  }"><strong>Status:</strong> {{data.status}}</span></p>
+  <h2 matTooltip="{{data.title}}">{{data.title}}</h2>
+  <div>
+    <p class="max-3-lines" matTooltip="{{data.description}}">{{data.description}}</p>
+    <p><strong>Created:</strong> {{data.creationTime | date:'dd MMM yyyy'}}</p>
+    <p><strong>Due Date:</strong> {{data.dueDate | date:'dd MMM yyyy'}}</p>
+    <p class="capitalize"><strong>User Name:</strong> {{data.userName}}</p>
+    <p><strong>Categories:</strong></p>
+    <ul>
+      <li *ngFor="let category of data.categoryNames.slice(0, 3)" matTooltip="{{category}}">
+        {{ category.length > 15 ? (category | slice:0:15) + '...' : category }}
+      </li>
+    </ul>
+  </div>
+
+  <button mat-raised-button color="warn" type="button" (click)="onClose()">Close</button>
+</div>

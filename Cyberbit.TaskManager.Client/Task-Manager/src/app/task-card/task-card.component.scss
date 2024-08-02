@@ -1,0 +1,45 @@
+
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+button {
+  margin: 0 auto; /* Center the button */
+  display: block;
+}
+
+h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+p.max-3-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+p.capitalize {
+  text-transform: capitalize;
+}
+
+p.align-right {
+  text-align: right;
+}
+
+span.status-done {
+  background-color: green;
+  color: white;
+}
+
+span.status-open {
+  background-color: orange;
+  color: white;
+}
+
+

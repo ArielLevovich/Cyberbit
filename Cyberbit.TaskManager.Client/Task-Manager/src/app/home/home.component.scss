@@ -7,8 +7,15 @@
   }
 }
 
-.logout-btn {
+.button-container {
+  display: flex;
+  align-items: flex-start; /* Aligns items to the top */
   position: fixed;
   top: 10px;
   left: 20px;
 }
+
+.create-task-btn {
+  margin-left: 10px; /* Space between the buttons */
+}
+
