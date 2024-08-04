@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cyberbit.TaskManager.Server.Controllers
@@ -77,6 +78,9 @@ namespace Cyberbit.TaskManager.Server.Controllers
             var task = _autoMapper.Mapper.Map<Models.Task>(taskDto);
             if (taskDto.CategoryIds != null && taskDto.CategoryIds.Count > 0)
             {
+                if (taskDto.CategoryIds.Count > 3) {
+                    taskDto.CategoryIds = taskDto.CategoryIds.Take(3).ToList();
+                }
                 task.Categories = (List<Models.Category>)await _CategoriesBl.GetCategories(taskDto.CategoryIds);
             }
 
@@ -113,6 +117,9 @@ namespace Cyberbit.TaskManager.Server.Controllers
             var task = _autoMapper.Mapper.Map<Models.Task>(taskDto);
             if (taskDto.CategoryIds != null && taskDto.CategoryIds.Count > 0)
             {
+                if (taskDto.CategoryIds.Count > 3) {
+                    taskDto.CategoryIds = taskDto.CategoryIds.Take(3).ToList();
+                }
                 task.Categories = (List<Models.Category>)await _CategoriesBl.GetCategories(taskDto.CategoryIds);
             }
             Models.Task updatedTask = null;
