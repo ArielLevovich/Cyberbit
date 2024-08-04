@@ -101,7 +101,18 @@ namespace Cyberbit.TaskManager.Server.Dal
             {
                 Name = "North Carolina"
             };
-            Categories.Add(category4);
+
+            var category5 = new Category
+            {
+                Name = "Papua New Guinea"
+            };
+            Categories.Add(category5);
+
+            var category6 = new Category
+            {
+                Name = "Am Israel Chai"
+            };
+            Categories.Add(category6);
             SaveChanges();
 
             Tasks.Add(new Task
@@ -113,7 +124,7 @@ namespace Cyberbit.TaskManager.Server.Dal
                 Title = "Bugs",
                 UserId = 2,
                 Status = TasksStatus.Open,
-                Categories = new List<Category> { category2 }
+                Categories = new List<Category> { category6 }
             });
 
             Tasks.Add(new Task
@@ -125,7 +136,7 @@ namespace Cyberbit.TaskManager.Server.Dal
                 Title = "High priority",
                 UserId = 1,
                 Status = TasksStatus.Open,
-                Categories = new List<Category> { category3 }
+                Categories = new List<Category> { category5 }
             });
 
             Tasks.Add(new Task
@@ -137,7 +148,7 @@ namespace Cyberbit.TaskManager.Server.Dal
                 Title = "The mesmerizing grandeur of the Milky Way galaxy, with its vast expanse of stars, planets, and other celestial bodies.",
                 UserId = 1,
                 Status = TasksStatus.Open,
-                Categories = new List<Category> { category1, category4 }
+                Categories = new List<Category> { category1, category4, category2, category3 }
             });
             SaveChanges();
         }
